@@ -11,6 +11,7 @@ Este projeto contém máscaras para diferentes tipos de campos. Abaixo estão os
  - CEP
  - Data
  - Hora
+ - Nome no Cartão de Crédito
  - Número de Cartão de Crédito
  - Data de Expiração do Cartão de Crédito
  - Valor Monetário
