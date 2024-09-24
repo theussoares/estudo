@@ -21,6 +21,17 @@ export const cnpjMask = (value: string) => {
     return value;
 };
 
+export function cpfcnpjMask(value: string) {
+  value = value.replace(/[^0-9]+/g, "");
+
+  if (value.length <= 11) {
+    return cpfMask(value);
+  } else {
+    return cnpjMask(value);
+  }
+}
+
+
 // RG Mask (##.###.###-#)
 export const rgMask = (value: string) => {
     // Remove todos os caracteres que não sejam dígitos
@@ -34,12 +45,36 @@ export const rgMask = (value: string) => {
     return value;
 };
 
+export function onlyNumberMask(value: string) {
+    return value.toString().replace(/[^0-9]/g, "");
+}
+
 // Telefone Mask (exemplo: (##) #####-####)
 export const telefoneMask = (value: string) => {
-    value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-    value = value.replace(/(\d{2})(\d)/, '($1) $2'); // Coloca parênteses no DDD
-    value = value.replace(/(\d{5})(\d)/, '$1-$2'); // Coloca o hífen no número
+    // Remove todos os caracteres que não sejam números
+    value = value.replace(/\D/g, '');
+
+    // Limita o número a no máximo 9 dígitos
+    value = value.substring(0, 11);
+
+    // Aplica a máscara para o número de telefone com DDD
+    if (value.length > 5) {
+        // Formato com DDD e hífen
+        value = value.replace(/(\d{2})(\d{5})(\d{2})/, '($1) $2-$3');
+    } else if (value.length > 2) {
+        // Formato com DDD mas sem hífen
+        value = value.replace(/(\d{2})(\d+)/, '($1) $2');
+    }
+
     return value;
+};
+
+export const cvvMask = (value: string) => {
+  // Remove qualquer caractere que não seja número
+  value = value.replace(/[^0-9]/g, "");
+
+  // Limita o valor a no máximo 4 dígitos (para cartões que aceitam 3 ou 4)
+  return value.slice(0, 4);
 };
 
 // CEP Mask (#####-###)
@@ -69,10 +104,39 @@ export const horaMask = (value: string) => {
 
 // Cartão de Crédito Mask (#### #### #### ####)
 export const cartaoCreditoMask = (value: string) => {
-    value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-    value = value.replace(/(\d{4})(\d)/g, '$1 $2'); // Agrupa os números em blocos de 4
-    return value.trim();
+    // Remove todos os caracteres que não sejam números
+    value = value.replace(/\D/g, '');
+
+    // Limita o número de dígitos a 16
+    value = value.substring(0, 16);
+
+    // Aplica a máscara de cartão de crédito (blocos de 4 dígitos, até 16 dígitos)
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+    return value.trim(); // Remove espaço no final, se houver
 };
+
+export const cartaoCreditoNomeMask = (value: string) => {
+  value = value?.replace(
+    /[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/g,
+    ""
+  );
+
+  return value.toUpperCase();
+};
+
+export const cartaoCreditoDataMask = (value: string) => {
+  // Remove tudo que não for número e limita a 4 dígitos
+  value = value.replace(/[^0-9]/g, "").slice(0, 4);
+
+  // Aplica a máscara apenas se o valor tiver mais de 2 dígitos
+  if (value.length > 2) {
+    value = value.replace(/(\d{2})(\d{0,2})/, "$1/$2");
+  }
+
+  return value;
+};
+
 
 // Valor Monetário Mask (R$ 1.000,00)
 export const valorMonetarioMask = (value: string) => {
@@ -81,6 +145,16 @@ export const valorMonetarioMask = (value: string) => {
     value = value.replace('.', ','); // Substitui o ponto por vírgula
     value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Coloca os pontos dos milhares
     return 'R$ ' + value;
+};
+
+export const ufMask = (value: string) => {
+  value = value.replace(/[^a-zA-Z]/g, '');
+  
+  if (value.length > 2) {
+    value = value.substring(0, 2);
+  }
+  
+  return value.toUpperCase();
 };
 
 // Percentual Mask (99%)

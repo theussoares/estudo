@@ -20,6 +20,16 @@ const inputs = [
     },
     {
         'tipo': 'text',
+        'label': 'UF',
+        'validacao': 'uf'
+    },
+    {
+        'tipo': 'text',
+        'label': 'Numero da casa',
+        'validacao': 'number'
+    },
+    {
+        'tipo': 'text',
         'label': 'CPF',
         'validacao': 'cpf'
     },
@@ -27,6 +37,11 @@ const inputs = [
         'tipo': 'text',
         'label': 'CNPJ',
         'validacao': 'cnpj'
+    },
+    {
+        'tipo': 'text',
+        'label': 'CPF ou CNPJ',
+        'validacao': 'cpf_cnpj'
     },
     {
         'tipo': 'text',
@@ -55,8 +70,18 @@ const inputs = [
     },
     {
         'tipo': 'text',
+        'label': 'Data de vencimento do Cartão de Crédito',
+        'validacao': 'cartao_credito_data'
+    },
+    {
+        'tipo': 'text',
         'label': 'RG',
         'validacao': 'rg'
+    },
+     {
+        'tipo': 'text',
+        'label': 'CVV do Cartão',
+        'validacao': 'cvv'
     },
     {
         'tipo': 'text',

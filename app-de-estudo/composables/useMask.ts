@@ -26,6 +26,12 @@ export const useMask = () => {
       case 'cartao_credito':
         maskedValue.value = mask.cartaoCreditoMask(value); // Máscara para Número de Cartão de Crédito
         break;
+        case 'cartao_credito_data':
+        maskedValue.value = mask.cartaoCreditoDataMask(value); // Máscara para Data de validade do Cartão de Crédito
+        break;
+        case 'cartao_credito_nome':
+        maskedValue.value = mask.cartaoCreditoNomeMask(value); // Máscara para Nome do Cartão de Crédito
+        break;
       case 'rg':
         maskedValue.value = mask.rgMask(value); // Máscara para Documentos (RG, Passaporte)
         break;
@@ -38,12 +44,18 @@ export const useMask = () => {
       case 'conta_bancaria':
         maskedValue.value = mask.contaBancariaMask(value); // Máscara para Conta Bancária/Agência
         break;
-      case 'email':
-        maskedValue.value = value; // Sem máscara específica para Email
-        break;
-      case 'password':
-        maskedValue.value = value; // Sem máscara específica para Senha
-        break;
+      case 'uf':
+        maskedValue.value = mask.ufMask(value)
+        break
+        case 'number':
+        maskedValue.value = mask.onlyNumberMask(value)
+        break
+        case 'cpf_cnpj':
+        maskedValue.value = mask.cpfcnpjMask(value)
+        break
+        case 'cvv':
+        maskedValue.value = mask.cvvMask(value)
+        break
       default:
         maskedValue.value = value; // Caso não haja máscara específica
     }
