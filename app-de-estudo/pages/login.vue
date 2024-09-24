@@ -65,6 +65,11 @@ const inputs = [
     },
     {
         'tipo': 'text',
+        'label': 'Nome no Cartão de Crédito',
+        'validacao': 'cartao_credito_nome'
+    },
+    {
+        'tipo': 'text',
         'label': 'Número de Cartão de Crédito',
         'validacao': 'cartao_credito'
     },
