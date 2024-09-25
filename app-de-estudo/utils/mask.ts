@@ -31,7 +31,6 @@ export function cpfcnpjMask(value: string) {
   }
 }
 
-
 // RG Mask (##.###.###-#)
 export const rgMask = (value: string) => {
     // Remove todos os caracteres que não sejam dígitos
@@ -138,14 +137,108 @@ export const cartaoCreditoDataMask = (value: string) => {
 };
 
 
-// Valor Monetário Mask (R$ 1.000,00)
-export const valorMonetarioMask = (value: string) => {
-    value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-    value = (parseInt(value) / 100).toFixed(2) + ''; // Formata como valor monetário
-    value = value.replace('.', ','); // Substitui o ponto por vírgula
-    value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); // Coloca os pontos dos milhares
-    return 'R$ ' + value;
+export const valorMonetarioMask = (value: string): string => {
+    // Remove todos os caracteres que não sejam dígitos ou o sinal de negativo
+    value = value.replace(/[^0-9-]/g, '');
+
+    // Se o valor estiver vazio após a remoção, retorna uma string vazia
+    if (value === '') {
+        return '';
+    }
+
+    // Verifica se o primeiro caractere é um sinal de negativo
+    let isNegative = false;
+    if (value[0] === '-') {
+        isNegative = true;
+        value = value.substring(1);
+
+        // Se o valor após remover o '-' estiver vazio, define value como '0' e isNegative como false
+        if (value === '') {
+            value = '';
+            isNegative = false;
+        }
+    }
+
+    // Remove zeros à esquerda
+    value = value.replace(/^0+/, '');
+
+    // Se o valor estiver vazio após remover zeros à esquerda, define como '0'
+    if (value === '') {
+      isNegative = false
+        value = '';
+    }
+
+    // Se o valor tiver menos de 3 dígitos, preenche com zeros à esquerda
+    if (value.length < 3) {
+        value = value.padStart(3, '0');
+    }
+
+    // Separa a parte inteira da parte decimal
+    let integerPart = value.slice(0, -2);
+    let decimalPart = value.slice(-2);
+
+    // Insere pontos como separadores de milhares na parte inteira
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    // Combina a parte inteira com a parte decimal
+    let formattedValue = integerPart + ',' + decimalPart;
+
+    // Adiciona o sinal negativo se necessário
+    if (isNegative) {
+        formattedValue = 'R$ -' + formattedValue;
+    } else {
+        formattedValue = 'R$ ' + formattedValue;
+    }
+
+    return formattedValue;
 };
+
+
+
+// export const valorMonetarioMask = (value: string): string => {
+//     // Remove todos os caracteres que não sejam dígitos ou o sinal de negativo
+//     value = value.replace(/[^0-9-]/g, '');
+
+//     // Verifica se o primeiro caractere é um sinal de negativo
+//     let isNegative = false;
+//     if (value[1] === ('-')) {
+//       console.log(value)
+//         isNegative = true;
+//         value = value.substring(1);
+//     }
+
+//     // Remove zeros à esquerda
+//     value = value.replace(/^0+/, '');
+
+//     // Se o valor estiver vazio, retorna uma string vazia
+//     if (value === '') {
+//         return '';
+//     }
+
+//     // Se o valor tiver menos de 3 dígitos, preenche com zeros à esquerda
+//     if (value.length < 3) {
+//         value = value.padStart(3, '0');
+//     }
+
+//     // Separa a parte inteira da parte decimal
+//     let integerPart = value.slice(0, -2);
+//     let decimalPart = value.slice(-2);
+
+//     // Insere pontos como separadores de milhares na parte inteira
+//     integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+//     // Combina a parte inteira com a parte decimal
+//     let formattedValue = integerPart + ',' + decimalPart;
+
+//     // Adiciona o sinal negativo se necessário
+//     if (isNegative) {
+//       console.log(isNegative, value, formattedValue)
+//       formattedValue = 'R$ ' + formattedValue;
+//     }
+//     else formattedValue = 'R$ ' + formattedValue;
+
+//     return formattedValue;
+// };
 
 export const ufMask = (value: string) => {
   value = value.replace(/[^a-zA-Z]/g, '');
