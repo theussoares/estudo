@@ -1,3 +1,3 @@
-import * as mask from "./mask.ts"
+import * as masks from "./mask.ts"
 
-export default mask
+export default masks

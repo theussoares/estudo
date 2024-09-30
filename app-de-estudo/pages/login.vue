@@ -41,7 +41,7 @@ const inputs = [
     {
         'tipo': 'text',
         'label': 'CPF ou CNPJ',
-        'validacao': 'cpf_cnpj'
+        'validacao': 'cpfcnpj'
     },
     {
         'tipo': 'text',
@@ -56,7 +56,7 @@ const inputs = [
     {
         'tipo': 'text',
         'label': 'Data',
-        'validacao': 'data'
+        'validacao': 'dateOfBirth'
     },
     {
         'tipo': 'text',
@@ -66,12 +66,12 @@ const inputs = [
     {
         'tipo': 'text',
         'label': 'Nome no Cartão de Crédito',
-        'validacao': 'cartao_credito_nome'
+        'validacao': 'creditCardName'
     },
     {
         'tipo': 'text',
         'label': 'Número de Cartão de Crédito',
-        'validacao': 'cartao_credito'
+        'validacao': 'creditCardNumber'
     },
     {
         'tipo': 'text',
@@ -91,7 +91,7 @@ const inputs = [
     {
         'tipo': 'text',
         'label': 'Valor Monetário',
-        'validacao': 'valor_monetario'
+        'validacao': 'formatCurrency'
     },
     {
         'tipo': 'text',
